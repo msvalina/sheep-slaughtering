@@ -41,8 +41,8 @@ int howManySheepsHaveBeenEaten()
         j++;
         fight += terrain.at(i);
         if (j % 4 == 0) {
-            wolf_pos = fight.find("v");
-            sheep_pos = fight.find("o");
+            wolf_pos = fight.find("w");
+            sheep_pos = fight.find("s");
             dist = abs (wolf_pos - sheep_pos);
             // cout << wolf_pos << endl;
             // cout << sheep_pos << endl;
@@ -68,8 +68,8 @@ int howManySheepsHaveBeenEaten()
 
 /* Idea, genarate a RAND number between 1 - 4
  * if 0 append . to terrain
- * if 1 append v to terrain
- * if 2 append o to terrain
+ * if 1 append w to terrain
+ * if 2 append s to terrain
  * if 3 append # to terrain
  */
 
@@ -107,8 +107,8 @@ string genTerrain()
 
 void setChar(int num){
     if (num == 0) terrain.append(".");
-    if (num == 1) terrain.append("v");
-    if (num == 2) terrain.append("o");
+    if (num == 1) terrain.append("w");
+    if (num == 2) terrain.append("s");
     if (num == 3) terrain.append("#");
 }
     
