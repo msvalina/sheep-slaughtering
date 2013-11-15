@@ -13,12 +13,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 int howManySheepsHaveBeenEaten();
 string genTerrain();
 int roll(int min, int max);
 void setChar(int num);
+int loopBetweenFences(size_t, size_t, const string& );
 
 string terrain;
 
@@ -31,37 +33,91 @@ int main( )
 
     return 0;
 }
+
+/* Idea: 
+ * 1. Find postion of every fence - #. Store it in fence_pos_vector
+ * 2. Loop through every char in string from begining to next occurance
+ *    of fence - #.
+ * 3. If there is one or more wolf - w, count the number of slaughtered
+ *    sheeps.
+ */
+ 
 int howManySheepsHaveBeenEaten()
 {
     int num_of_dead_sheeps=0;
-    string fight;
-    size_t wolf_pos, sheep_pos, space_pos;
-    int j=0, dist=0;
-    for (int i = 0; i < terrain.length(); i++) {
-        j++;
-        fight += terrain.at(i);
-        if (j % 4 == 0) {
-            wolf_pos = fight.find("w");
-            sheep_pos = fight.find("s");
-            dist = abs (wolf_pos - sheep_pos);
-            // cout << wolf_pos << endl;
-            // cout << sheep_pos << endl;
-            // cout << dist << endl;
-            if (dist == 1) num_of_dead_sheeps++;
-            if (dist == 2) {
-                if (wolf_pos > sheep_pos) {
-                    if (fight.at(wolf_pos - 1) == '.') 
-                        num_of_dead_sheeps++;
+    size_t fence_pos=0;
+    std::vector<size_t> fence_pos_vector;
+
+    if (terrain.find("#", fence_pos) != -1){
+        for (int i = 0; i < terrain.length(); i++) {
+            if (i == 0) {
+                fence_pos = terrain.find("#",0);
+                fence_pos_vector.push_back(fence_pos);
+                i = fence_pos;
+            }
+            else {
+                if (terrain.find("#", fence_pos+1) != -1){
+                    fence_pos = terrain.find("#", fence_pos+1);
+                    fence_pos_vector.push_back(fence_pos);
+                    i = fence_pos;
                 }
-                else {
-                    if (fight.at(sheep_pos - 1) == '.')
+                else break;
+            }
+        }
+    }
+    else {
+        fence_pos_vector.at(0) = 0;
+    }
+
+    for (int i = 0; i < fence_pos_vector.size(); i++) {
+        if (i == 0) 
+            loopBetweenFences(i, fence_pos_vector.at(i), terrain);
+        
+        else
+            loopBetweenFences(fence_pos_vector.at(i-1), 
+                              fence_pos_vector.at(i), terrain);
+        // Here is missing one more call to loopBetweenFences cuz we
+        // will miss .sw#.sw#.sw last sheep 
+    }
+
+    return num_of_dead_sheeps;
+}
+
+int loopBetweenFences(size_t start, size_t finish, const string& terrain)
+{
+    int num_of_dead_sheeps = 0;
+    string temp;
+    size_t sheep_pos=0;
+    vector<size_t> sheep_pos_vec;
+    sheep_pos_vec.clear();
+    temp = terrain.substr(start, finish);
+    
+    // if distance between fence is bigger then 1
+    if ( temp.length() > 1)
+        // if there is at least one wolf
+        if (temp.find("w") != -1 ){
+            for (int i = 0; i < temp.length(); i++) {
+                if (temp.find("s",sheep_pos) != -1){
+                    if (i == 0){ 
+                        sheep_pos = temp.find("s",0);
+                        sheep_pos_vec.push_back(sheep_pos);
+                        i = sheep_pos;
                         num_of_dead_sheeps++;
+                    }
+                    else {
+                        if (temp.find("s",sheep_pos+1) != -1){
+                            sheep_pos = terrain.find("s", sheep_pos+1);
+                            sheep_pos_vec.push_back(sheep_pos);
+                            i = sheep_pos;
+                            num_of_dead_sheeps++;
+                        }
+                    }
                 }
             }
         }
-        
-        if (j % 4 == 0) fight.erase(fight.begin(), fight.end());
-    }
+
+    // cout << "sheep pos vec: " << sheep_pos_vec.size() << endl;
+    cout << "num of dead sheeps: " << num_of_dead_sheeps << endl;
 
     return num_of_dead_sheeps;
 }
@@ -75,7 +131,7 @@ int howManySheepsHaveBeenEaten()
 
 string genTerrain()
 {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 2; i++) {
         int first = roll(0,3);
         setChar(first);
 
