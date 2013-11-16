@@ -16,23 +16,23 @@
 #include <vector>
 
 using namespace std;
-int howManySheepsHaveBeenEaten();
-string genTerrain();
-int roll(int min, int max);
-void setChar(int num);
-int loopBetweenFences(size_t, size_t, const string& );
+int howManySheepsHaveBeenEaten ();
+string genTerrain ();
+int roll (int min, int max);
+void setChar (int num);
+int loopBetweenFences (size_t, size_t, const string& );
 
 string terrain;
 
-int main(int argc, const char *argv[])
+int main (int argc, const char *argv[])
 {
-    srand(time(NULL));
+    srand (time (NULL));
     if (argc > 1) 
         terrain = argv[1];
     else 
-        genTerrain();
+        genTerrain ();
 
-    cout << "Slaughtered: " << howManySheepsHaveBeenEaten() << endl;
+    cout << "Slaughtered: " << howManySheepsHaveBeenEaten () << endl;
     
     return 0;
 }
@@ -45,10 +45,10 @@ int main(int argc, const char *argv[])
  *    sheeps.
  */
  
-int howManySheepsHaveBeenEaten()
+int howManySheepsHaveBeenEaten ()
 {
-    int num_of_dead_sheeps=0;
-    size_t fence_pos=0;
+    int num_of_dead_sheeps = 0;
+    size_t fence_pos = 0;
     std::vector<size_t> fence_pos_vector;
 
     if (terrain.find("#", fence_pos) != -1){
@@ -74,18 +74,18 @@ int howManySheepsHaveBeenEaten()
 
     for (int i = 0; i < fence_pos_vector.size(); i++) {
         if (i == 0) 
-            num_of_dead_sheeps = loopBetweenFences(i, fence_pos_vector.at(i), terrain);
+            num_of_dead_sheeps = loopBetweenFences (i, fence_pos_vector.at(i), terrain);
         
         // For not missing last sheep in this example: .sw#.sw#.sw
         else if (i == (fence_pos_vector.size() - 1)){
-            num_of_dead_sheeps += loopBetweenFences(fence_pos_vector.at(i-1), 
+            num_of_dead_sheeps += loopBetweenFences (fence_pos_vector.at(i-1), 
                               fence_pos_vector.at(i) - fence_pos_vector.at(i-1), 
                               terrain);
-            num_of_dead_sheeps += loopBetweenFences(fence_pos_vector.at(i), terrain.size(), terrain);
+            num_of_dead_sheeps += loopBetweenFences (fence_pos_vector.at(i), terrain.size(), terrain);
         }
 
         else
-            num_of_dead_sheeps += loopBetweenFences(fence_pos_vector.at(i-1), 
+            num_of_dead_sheeps += loopBetweenFences (fence_pos_vector.at(i-1), 
                               fence_pos_vector.at(i) - fence_pos_vector.at(i-1),
                               terrain);
     }
@@ -93,11 +93,11 @@ int howManySheepsHaveBeenEaten()
     return num_of_dead_sheeps;
 }
 
-int loopBetweenFences(size_t start, size_t count, const string& terrain)
+int loopBetweenFences (size_t start, size_t count, const string& terrain)
 {
     int num_of_dead_sheeps = 0;
     string subterrain;
-    size_t sheep_pos=0;
+    size_t sheep_pos = 0;
     vector<size_t> sheep_pos_vec;
     sheep_pos_vec.clear();
     subterrain = terrain.substr(start, count);
@@ -141,7 +141,7 @@ int loopBetweenFences(size_t start, size_t count, const string& terrain)
  * if 3 append # to terrain
  */
 
-string genTerrain()
+string genTerrain ()
 {
     for (int i = 0; i < 4; i++) {
         int first = roll(0,3);
@@ -173,7 +173,7 @@ string genTerrain()
     return terrain;
 }
 
-void setChar(int num){
+void setChar (int num){
     if (num == 0) terrain.append(".");
     if (num == 1) terrain.append("w");
     if (num == 2) terrain.append("s");
@@ -181,7 +181,7 @@ void setChar(int num){
 }
     
 
-int roll(int min, int max)
+int roll (int min, int max)
 {
    // x is in [0,1[
    double x = rand()/static_cast<double>(RAND_MAX); 
