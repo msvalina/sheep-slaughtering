@@ -10,30 +10,31 @@ Write out how many sheeps have been slaughtered.
 
 ### For example:
 
-* #.vov#o.o#.v#o.v.o#v
+* #.wsw#s.s#.w#s.w.s#w
 
-Only two sheeps in between fence #o.o# will survive.
+Only two sheeps in between fence #s.s# will survive.
 
 
-### Old broken version output:
+### Program output:
 
-    Starting program: /home/maki/a.out 
-    ov.#o.#v#ov.v.#oo.v#
+    (gdb) r
+    Starting program: /home/maki/geek/source/sheep-slaughtering/a.out 
+    terrain: sw#.s#w..w#ss.w#
+    fence: sw
+    dead sheeps: 1
+    fence: #.s
+    dead sheeps: 0
+    fence: #w..w
+    dead sheeps: 0
+    fence: #ss.w
+    dead sheeps: 2
+    fence: #
+    dead sheeps: 0
     Slaughtered: 3
-    [Inferior 1 (process 14706) exited normally]
-    (gdb) r
-    Starting program: /home/maki/a.out 
-     #.ov#v.oo.#v.ov#v.o#
-    Slaughtered: 4
-    [Inferior 1 (process 14709) exited normally]
-    (gdb) r
-    Starting program: /home/maki/a.out 
-    o#v.o.#vv#o.#v.o#vo.
-    Slaughtered: 2
-    [Inferior 1 (process 14710) exited normally]
-    (gdb) r
-    Starting program: /home/maki/a.out 
-     #.voo.v#.v#ov.o#vo.#
-    Slaughtered: 4
-    [Inferior 1 (process 14711) exited normally]
 
+### Remainder to myself - what did I learn
+
+* This is first program that I used ```gdb``` on. I successfuly debug four
+annoying bugs, and I'm sure that it would take for ages if I didn't use 
+```gdb```
+* Finnaly figured why are ```const type &``` usefull.
