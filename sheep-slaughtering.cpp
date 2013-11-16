@@ -24,13 +24,16 @@ int loopBetweenFences(size_t, size_t, const string& );
 
 string terrain;
 
-int main( )
+int main(int argc, const char *argv[])
 {
     srand(time(NULL));
+    if (argc > 1) 
+        terrain = argv[1];
+    else 
+        genTerrain();
 
-    genTerrain();
     cout << "Slaughtered: " << howManySheepsHaveBeenEaten() << endl;
-
+    
     return 0;
 }
 
@@ -73,25 +76,34 @@ int howManySheepsHaveBeenEaten()
         if (i == 0) 
             loopBetweenFences(i, fence_pos_vector.at(i), terrain);
         
+        // For not missing last sheep in this example: .sw#.sw#.sw
+        else if (i == (fence_pos_vector.size() - 1)){
+            loopBetweenFences(fence_pos_vector.at(i-1), 
+                              fence_pos_vector.at(i) - fence_pos_vector.at(i-1), 
+                              terrain);
+            loopBetweenFences(fence_pos_vector.at(i), terrain.size(), terrain);
+        }
+
         else
             loopBetweenFences(fence_pos_vector.at(i-1), 
-                              fence_pos_vector.at(i), terrain);
-        // Here is missing one more call to loopBetweenFences cuz we
-        // will miss .sw#.sw#.sw last sheep 
+                              fence_pos_vector.at(i) - fence_pos_vector.at(i-1),
+                              terrain);
     }
 
     return num_of_dead_sheeps;
 }
 
-int loopBetweenFences(size_t start, size_t finish, const string& terrain)
+int loopBetweenFences(size_t start, size_t count, const string& terrain)
 {
-    int num_of_dead_sheeps = 0;
+    int num_of_dead_sheeps = 0, num_of_fences = 0;
     string temp;
     size_t sheep_pos=0;
     vector<size_t> sheep_pos_vec;
     sheep_pos_vec.clear();
-    temp = terrain.substr(start, finish);
+    temp = terrain.substr(start, count);
     
+    num_of_fences++;
+    cout << "fence(" << num_of_fences << "): " << temp << endl;
     // if distance between fence is bigger then 1
     if ( temp.length() > 1)
         // if there is at least one wolf
@@ -106,11 +118,12 @@ int loopBetweenFences(size_t start, size_t finish, const string& terrain)
                     }
                     else {
                         if (temp.find("s",sheep_pos+1) != -1){
-                            sheep_pos = terrain.find("s", sheep_pos+1);
+                            sheep_pos = temp.find("s", sheep_pos+1);
                             sheep_pos_vec.push_back(sheep_pos);
                             i = sheep_pos;
                             num_of_dead_sheeps++;
                         }
+                        else break;
                     }
                 }
             }
