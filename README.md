@@ -34,7 +34,8 @@ Only two sheeps in between fence #s.s# will survive.
 
 ### Remainder to myself - what did I learn
 
-* This is first program that I used ```gdb``` on. I successfuly debug four
+* This is first program that I used ```gdb``` on. I successfuly debuged four
 annoying bugs, and I'm sure that it would take for ages if I didn't use 
 ```gdb```
+
 * Finnaly figured why are ```const type &``` usefull.
