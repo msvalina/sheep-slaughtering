@@ -6,8 +6,8 @@
  * Write out how many sheeps have been slaughtered.
  *
  * For example:
- * #.vov#o.o#.v#o.v.o#v
- * Only two sheeps in between fence #o.o# will survive.
+ * #.wsw#s.s#.w#s.w.s#w
+ * Only two sheeps in between fence #s.s# will survive.
  */
 #include <iostream>
 #include <stdlib.h>
@@ -74,18 +74,18 @@ int howManySheepsHaveBeenEaten()
 
     for (int i = 0; i < fence_pos_vector.size(); i++) {
         if (i == 0) 
-            loopBetweenFences(i, fence_pos_vector.at(i), terrain);
+            num_of_dead_sheeps = loopBetweenFences(i, fence_pos_vector.at(i), terrain);
         
         // For not missing last sheep in this example: .sw#.sw#.sw
         else if (i == (fence_pos_vector.size() - 1)){
-            loopBetweenFences(fence_pos_vector.at(i-1), 
+            num_of_dead_sheeps += loopBetweenFences(fence_pos_vector.at(i-1), 
                               fence_pos_vector.at(i) - fence_pos_vector.at(i-1), 
                               terrain);
-            loopBetweenFences(fence_pos_vector.at(i), terrain.size(), terrain);
+            num_of_dead_sheeps += loopBetweenFences(fence_pos_vector.at(i), terrain.size(), terrain);
         }
 
         else
-            loopBetweenFences(fence_pos_vector.at(i-1), 
+            num_of_dead_sheeps += loopBetweenFences(fence_pos_vector.at(i-1), 
                               fence_pos_vector.at(i) - fence_pos_vector.at(i-1),
                               terrain);
     }
@@ -95,30 +95,29 @@ int howManySheepsHaveBeenEaten()
 
 int loopBetweenFences(size_t start, size_t count, const string& terrain)
 {
-    int num_of_dead_sheeps = 0, num_of_fences = 0;
-    string temp;
+    int num_of_dead_sheeps = 0;
+    string subterrain;
     size_t sheep_pos=0;
     vector<size_t> sheep_pos_vec;
     sheep_pos_vec.clear();
-    temp = terrain.substr(start, count);
+    subterrain = terrain.substr(start, count);
     
-    num_of_fences++;
-    cout << "fence(" << num_of_fences << "): " << temp << endl;
+    cout << "fence: " << subterrain << endl;
     // if distance between fence is bigger then 1
-    if ( temp.length() > 1)
+    if ( subterrain.length() > 1)
         // if there is at least one wolf
-        if (temp.find("w") != -1 ){
-            for (int i = 0; i < temp.length(); i++) {
-                if (temp.find("s",sheep_pos) != -1){
+        if (subterrain.find("w") != -1 ){
+            for (int i = 0; i < subterrain.length(); i++) {
+                if (subterrain.find("s",sheep_pos) != -1){
                     if (i == 0){ 
-                        sheep_pos = temp.find("s",0);
+                        sheep_pos = subterrain.find("s",0);
                         sheep_pos_vec.push_back(sheep_pos);
                         i = sheep_pos;
                         num_of_dead_sheeps++;
                     }
                     else {
-                        if (temp.find("s",sheep_pos+1) != -1){
-                            sheep_pos = temp.find("s", sheep_pos+1);
+                        if (subterrain.find("s",sheep_pos+1) != -1){
+                            sheep_pos = subterrain.find("s", sheep_pos+1);
                             sheep_pos_vec.push_back(sheep_pos);
                             i = sheep_pos;
                             num_of_dead_sheeps++;
@@ -130,7 +129,7 @@ int loopBetweenFences(size_t start, size_t count, const string& terrain)
         }
 
     // cout << "sheep pos vec: " << sheep_pos_vec.size() << endl;
-    cout << "num of dead sheeps: " << num_of_dead_sheeps << endl;
+    cout << "dead sheeps: " << num_of_dead_sheeps << endl;
 
     return num_of_dead_sheeps;
 }
@@ -144,7 +143,7 @@ int loopBetweenFences(size_t start, size_t count, const string& terrain)
 
 string genTerrain()
 {
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 4; i++) {
         int first = roll(0,3);
         setChar(first);
 
@@ -170,7 +169,7 @@ string genTerrain()
         setChar(fourth);
 
     }
-    cout << terrain << endl;
+    cout << "terrain: " << terrain << endl;
     return terrain;
 }
 
