@@ -1,0 +1,14 @@
+Failed samples:
+w.#sw.#s
+num of dead sheeps: 0
+num of dead sheeps: 3
+sw#.s#w.
+num of dead sheeps: 1
+num of dead sheeps: 1
+.#swsw.#
+num of dead sheeps: 0
+num of dead sheeps: 3
+num of dead sheeps: 0
+
+
+
