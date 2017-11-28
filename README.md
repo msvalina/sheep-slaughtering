@@ -1,6 +1,6 @@
 ## Sheep slaughtering - small fun program for counting characters
 
-String is constructed with these four characters:
+A string is constructed with these four characters:
 * w - represents wolf 
 * s - represents sheep
 * . - represents empty space
@@ -32,10 +32,10 @@ Only two sheeps in between fence #s.s# will survive.
     dead sheeps: 0
     Slaughtered: 3
 
-### Remainder to myself - what did I learn
+### Reminder to myself - what I learned
 
-* This is first program that I used ```gdb``` on. I successfuly debuged four
-annoying bugs, and I'm sure that it would take for ages if I didn't use 
-```gdb```
+* This is the first program that I used ```gdb``` on. I successfully debugged four
+annoying bugs, and I'm sure that it would had taken ages if I didn't use 
+```gdb```.
 
-* Finnaly figured why are ```const type &``` usefull.
+* Finally figured why ```const type &``` are useful.
